@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: duende-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/nguyenvantu123/sealedsecret.git
+    targetRevision: main          # hoặc master
+    path: manifests               # folder chứa sealedsecret.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd             # theo Cách A của bạn
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
